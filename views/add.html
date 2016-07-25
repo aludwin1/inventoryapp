@@ -1,0 +1,11 @@
+{% extends './layout.html' %}
+{% block main %}
+ 
+<form action="/products/add" method="POST">
+	<div class="form-group">
+		<input name="name" style="display:inline" class="form-control" placeholder="Product Name">
+	</div>
+		<button class="btn btn-primary" style="margin-right:5px"> Add </button>
+</form>
+
+{% endblock %}
