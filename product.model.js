@@ -1,4 +1,4 @@
-var products = [ 
+var _products = [ 
 	{
 		name: "Something",
 		id: 1
@@ -18,34 +18,38 @@ var products = [
 
 module.exports = {
 	list: function() {
-		return products;
+		return _products;
 	},
 
 	find: function(id) {
-		return products.filter(function(obj) {
-			return obj.id === id
-		});
+		return this.list().filter(function(product) {
+			return product.id === id;
+		})[0];
 	},
 
 	delete: function(id) {
-
-		products = products.filter(function(obj) {
-			return obj.id !== id
-		});
-		
-		return this.list();
+    var product = this.find(id); 
+    var idx = this.list().indexOf(product);
+    this.list().splice(idx, 1);
 	},
 
 	add: function(name) {
-		products.push({id: products.length + 1, name: name})
+    var max = 0;
+    max = this.list().reduce(function(max, product){
+      if(product.id > max)
+        max = product.id;
+      return max;
+    }, 0);
+    max++;
+    var product = {
+      name: name,
+      id: max
+    };
+		this.list().push(product);
 	},
 
-	update: function(name, value) {
-		for(var i = 0; i < products.length; i++) {
-			if(products[i].id === value) {
-				products[i].name = name;
-			}
-	    }
+	update: function(id, name) {
+    this.find(id).name = name;
 	}
 
 };
